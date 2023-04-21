@@ -11,6 +11,9 @@ const PlayerLayout = ({ children }) => {
     4: {},
   });
 
+  // Lisää currentPlayer-tila
+  const [currentPlayer, setCurrentPlayer] = useState(1);
+
   const updateScore = (playerNumber, category) => {
     const selectedDice = selectedDicePerPlayer[playerNumber];
     if (selectedDice) {
@@ -36,6 +39,10 @@ const PlayerLayout = ({ children }) => {
       ...prevSelectedDice,
       [playerNumber]: dice,
     }));
+  };
+
+  const onNextPlayer = () => {
+    setCurrentPlayer((prevPlayer) => (prevPlayer % 4) + 1);
   };
 
   const calculateCategoryScore = (category, dice) => {
@@ -64,19 +71,39 @@ const PlayerLayout = ({ children }) => {
     <div className={styles.container}>
       <div className={styles.row}>
         <div className={`${styles.player} ${styles.player1}`}>
-          <Player onDiceSelected={handleDiceSelected} playerNumber={1} />
+          <Player
+            onDiceSelected={handleDiceSelected}
+            playerNumber={1}
+            isCurrentPlayer={currentPlayer === 1}
+            onNextPlayer={onNextPlayer}
+          />
         </div>
         <div className={`${styles.player} ${styles.player3}`}>
-          <Player onDiceSelected={handleDiceSelected} playerNumber={3} />
+          <Player
+            onDiceSelected={handleDiceSelected}
+            playerNumber={3}
+            isCurrentPlayer={currentPlayer === 3}
+            onNextPlayer={onNextPlayer}
+          />
         </div>
       </div>
       <ScoreTable scores={scores} updateScore={updateScore} />
       <div className={styles.row}>
         <div className={`${styles.player} ${styles.player2}`}>
-          <Player onDiceSelected={handleDiceSelected} playerNumber={2} />
+          <Player
+            onDiceSelected={handleDiceSelected}
+            playerNumber={2}
+            isCurrentPlayer={currentPlayer === 2}
+            onNextPlayer={onNextPlayer}
+          />
         </div>
         <div className={`${styles.player} ${styles.player4}`}>
-          <Player onDiceSelected={handleDiceSelected} playerNumber={4} />
+          <Player
+            onDiceSelected={handleDiceSelected}
+            playerNumber={4}
+            isCurrentPlayer={currentPlayer === 4}
+            onNextPlayer={onNextPlayer}
+          />
         </div>
       </div>
     </div>
@@ -84,7 +111,3 @@ const PlayerLayout = ({ children }) => {
 };
 
 export default PlayerLayout;
-
-
-
-

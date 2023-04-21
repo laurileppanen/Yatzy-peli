@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../DiceRoller.module.css';
 
-const DiceRoller = ({ onDiceSelected }) => {
+const DiceRoller = ({ onDiceSelected, isCurrentPlayer, onNextPlayer }) => {
   const [diceRolls, setDiceRolls] = useState(Array(6).fill(null));
   const [locked, setLocked] = useState(Array(6).fill(false));
   const [rerollsRemaining, setRerollsRemaining] = useState(2);
   const [sum, setSum] = useState(0);
 
   const rollDice = () => {
-    if (rerollsRemaining > 0) {
+    if (isCurrentPlayer && rerollsRemaining > 0) {
       const rolls = diceRolls.map((roll, index) =>
         locked[index] ? roll : Math.floor(Math.random() * 6) + 1
       );
@@ -20,11 +20,13 @@ const DiceRoller = ({ onDiceSelected }) => {
   };
 
   const toggleLock = (index) => {
-    setLocked((prevLocked) => {
-      const newLocked = [...prevLocked];
-      newLocked[index] = !newLocked[index];
-      return newLocked;
-    });
+    if (isCurrentPlayer) {
+      setLocked((prevLocked) => {
+        const newLocked = [...prevLocked];
+        newLocked[index] = !newLocked[index];
+        return newLocked;
+      });
+    }
   };
 
   const diceEmoji = ['⚀', '⚁', '⚂', '⚃', '⚄', '⚅'];
@@ -54,9 +56,15 @@ const DiceRoller = ({ onDiceSelected }) => {
       </div>
       <div>Heittoja jäljellä: {rerollsRemaining}</div>
       <div>Noppien summa: {sum}</div>
+      {isCurrentPlayer && (
+        <button onClick={onNextPlayer}>Valmis</button>
+      )}
     </div>
   );
 };
 
 export default DiceRoller;
+
+
+
 

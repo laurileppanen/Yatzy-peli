@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'react';
 import styles from '../DiceRoller.module.css';
 
-const DiceRoller = ({ onDiceSelected, isCurrentPlayer, onNextPlayer }) => {
+const DiceRoller = forwardRef(({ onDiceSelected, isCurrentPlayer, onNextPlayer }, ref) => {
   const [diceRolls, setDiceRolls] = useState(Array(6).fill(null));
   const [locked, setLocked] = useState(Array(6).fill(false));
   const [rerollsRemaining, setRerollsRemaining] = useState(2);
@@ -35,6 +35,15 @@ const DiceRoller = ({ onDiceSelected, isCurrentPlayer, onNextPlayer }) => {
     onDiceSelected(diceRolls.filter((_, index) => locked[index]));
   }, [locked, onDiceSelected, diceRolls]);
 
+  useImperativeHandle(ref, () => ({
+    resetRerolls: () => setRerollsRemaining(2),
+  }));
+
+  const handleNextPlayer = () => {
+    onNextPlayer();
+    setRerollsRemaining(2);
+  };
+
   return (
     <div>
       <button onClick={rollDice}>Heitä noppaa</button>
@@ -57,13 +66,16 @@ const DiceRoller = ({ onDiceSelected, isCurrentPlayer, onNextPlayer }) => {
       <div>Heittoja jäljellä: {rerollsRemaining}</div>
       <div>Noppien summa: {sum}</div>
       {isCurrentPlayer && (
-        <button onClick={onNextPlayer}>Valmis</button>
+        <button onClick={handleNextPlayer}>Valmis</button>
       )}
     </div>
   );
-};
+});
 
 export default DiceRoller;
+
+
+
 
 
 

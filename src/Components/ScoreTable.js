@@ -3,11 +3,36 @@ import styles from '../ScoreTable.module.css';
 
 const ScoreTable = ({ scores, updateScore }) => {
   const categories = [
-    'ykköset', 'kakkoset', 'kolmoset', 'neloset', 'viitoset', 'kuutoset'
+    'ykköset', 'kakkoset', 'kolmoset', 'neloset', 'viitoset', 'kuutoset', 'pari', 'kaksi paria', 'kolme samaa', 'neljä samaa', 'pikku suora', 'iso suora', 'täyskäsi', 'sattuma', 'yatzy'
   ];
 
   const handleCategoryClick = (playerNumber, category) => {
     updateScore(playerNumber, category);
+  };
+
+  const calculateTotalScore = () => {
+    const categories = [
+      'ykköset',
+      'kakkoset',
+      'kolmoset',
+      'neloset',
+      'viitoset',
+      'kuutoset',
+      'pari',
+      'kaksi paria',
+      'kolme samaa',
+      'neljä samaa',
+      'pikku suora',
+      'iso suora',
+      'täyskäsi',
+      'sattuma',
+      'yatzy',
+    ];
+  
+    return categories.reduce((sum, category) => {
+      const score = scores[category] || 0;
+      return sum + score;
+    }, 0);
   };
 
   return (
@@ -48,6 +73,10 @@ const ScoreTable = ({ scores, updateScore }) => {
           </tr>
         ))}
       </tbody>
+      <tr>
+  <td>Summa</td>
+  <td>{calculateTotalScore()}</td>
+</tr>
     </table>
   );
 };

@@ -11,7 +11,6 @@ const PlayerLayout = ({ children }) => {
     4: {},
   });
 
-  // Lisää currentPlayer-tila
   const [currentPlayer, setCurrentPlayer] = useState(1);
 
   const updateScore = (playerNumber, category) => {
@@ -64,7 +63,87 @@ const PlayerLayout = ({ children }) => {
     if (category === 'kuutoset') {
       return dice.filter((value) => value === 6).reduce((acc, value) => acc + value, 0);
     }
-    // Add other categories' score calculation here
+    if (category === 'pari') {
+      const counts = Array(6).fill(0);
+      dice.forEach((value) => {
+        counts[value - 1]++;
+      });
+      const pairIndex = counts.findIndex((count) => count === 2);
+      return pairIndex >= 0 ? (pairIndex + 1) * 2 : 0;
+    }
+    if (category === 'kaksi paria') {
+      const counts = Array(6).fill(0);
+      dice.forEach((value) => {
+        counts[value - 1]++;
+      });
+      const pairs = counts.filter((count) => count >= 2);
+      if (pairs.length >= 2) {
+        const pairIndices = [];
+        for (let i = 0; i < counts.length; i++) {
+          if (counts[i] >= 2) {
+            pairIndices.push(i + 1);
+          }
+        }
+        return pairIndices.slice(0, 2).reduce((acc, value) => acc + value * 2, 0);
+      } else {
+        return 0;
+      }
+    }
+    if (category === 'kolme samaa') {
+      const counts = Array(6).fill(0);
+      dice.forEach((value) => {
+        counts[value - 1]++;
+      });
+    
+      const threeOfAKindIndex = counts.findIndex((count) => count >= 3);
+      return threeOfAKindIndex >= 0 ? (threeOfAKindIndex + 1) * 3 : 0;
+    }
+    if (category === 'neljä samaa') {
+      const counts = Array(6).fill(0);
+      dice.forEach((value) => {
+        counts[value - 1]++;
+      });
+    
+      const fourOfAKindIndex = counts.findIndex((count) => count >= 4);
+      return fourOfAKindIndex >= 0 ? (fourOfAKindIndex + 1) * 4 : 0;
+    }
+    if (category === 'pikku suora') {
+      const sortedDice = [...dice].sort((a, b) => a - b);
+      const isSmallStraight = sortedDice.every((value, index) => value === index + 1);
+      return isSmallStraight ? 15 : 0;
+    }
+    if (category === 'iso suora') {
+      const sortedDice = [...dice].sort((a, b) => a - b);
+      const isLargeStraight = sortedDice.every((value, index) => value === index + 2);
+      return isLargeStraight ? 20 : 0;
+    }
+    if (category === 'täyskäsi') {
+      const counts = Array(6).fill(0);
+      dice.forEach((value) => {
+        counts[value - 1]++;
+      });
+    
+      const hasThreeOfAKind = counts.some((count) => count === 3);
+      const hasPair = counts.some((count) => count === 2);
+    
+      if (hasThreeOfAKind && hasPair) {
+        const threeOfAKindValue = counts.findIndex((count) => count === 3) + 1;
+        const pairValue = counts.findIndex((count) => count === 2) + 1;
+        return threeOfAKindValue * 3 + pairValue * 2;
+      } else {
+        return 0;
+      }
+    }
+    if (category === 'sattuma') {
+      return dice.reduce((acc, value) => acc + value, 0);
+    }
+    if (category === 'yatzy') {
+      const counts = Array(6).fill(0);
+      dice.forEach((value) => {
+        counts[value - 1]++;
+      });
+      return counts.some((count) => count === 5) ? 50 : 0;
+    }
   };
 
   return (

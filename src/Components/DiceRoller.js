@@ -2,8 +2,8 @@ import React, { useState, useEffect, forwardRef, useImperativeHandle } from 'rea
 import styles from '../DiceRoller.module.css';
 
 const DiceRoller = forwardRef(({ onDiceSelected, isCurrentPlayer, onNextPlayer }, ref) => {
-  const [diceRolls, setDiceRolls] = useState(Array(6).fill(null));
-  const [locked, setLocked] = useState(Array(6).fill(false));
+  const [diceRolls, setDiceRolls] = useState(Array(5).fill(null));
+  const [locked, setLocked] = useState(Array(5).fill(false));
   const [rerollsRemaining, setRerollsRemaining] = useState(2);
   const [sum, setSum] = useState(0);
 

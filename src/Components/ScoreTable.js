@@ -10,27 +10,9 @@ const ScoreTable = ({ scores, updateScore }) => {
     updateScore(playerNumber, category);
   };
 
-  const calculateTotalScore = () => {
-    const categories = [
-      'ykköset',
-      'kakkoset',
-      'kolmoset',
-      'neloset',
-      'viitoset',
-      'kuutoset',
-      'pari',
-      'kaksi paria',
-      'kolme samaa',
-      'neljä samaa',
-      'pikku suora',
-      'iso suora',
-      'täyskäsi',
-      'sattuma',
-      'yatzy',
-    ];
-  
+  const calculateTotalScore = (playerNumber) => {
     return categories.reduce((sum, category) => {
-      const score = scores[category] || 0;
+      const score = scores[playerNumber][category] || 0;
       return sum + score;
     }, 0);
   };
@@ -74,14 +56,20 @@ const ScoreTable = ({ scores, updateScore }) => {
         ))}
       </tbody>
       <tr>
-  <td>Summa</td>
-  <td>{calculateTotalScore()}</td>
-</tr>
+        <td>Summa</td>
+        <td>{calculateTotalScore(1)}</td>
+        <td>{calculateTotalScore(2)}</td>
+        <td>{calculateTotalScore(3)}</td>
+        <td>{calculateTotalScore(4)}</td>
+      </tr>
     </table>
   );
 };
 
-export default ScoreTable;
+export default ScoreTable
+
+
+
 
 
 

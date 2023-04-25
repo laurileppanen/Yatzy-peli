@@ -26,11 +26,3 @@ const Player = ({ playerNumber, onDiceSelected, isCurrentPlayer, onNextPlayer })
 };
 
 export default Player;
-
-
-
-
-
-
-
-

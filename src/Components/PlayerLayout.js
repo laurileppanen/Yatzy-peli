@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styles from '../PlayerLayout.module.css';
 import ScoreTable from './ScoreTable';
 import Player from './Player';
+import HighScores from './HighScores';
 
 const PlayerLayout = ({ children }) => {
   const [scores, setScores] = useState({
@@ -146,6 +147,28 @@ const PlayerLayout = ({ children }) => {
     }
   };
 
+  const saveGame = () => {
+    localStorage.setItem("yatzyScores", JSON.stringify(scores));
+    localStorage.setItem("yatzyCurrentPlayer", currentPlayer);
+    localStorage.setItem("yatzySelectedDice", JSON.stringify(selectedDicePerPlayer));
+  };
+  
+  const loadGame = () => {
+    const loadedScores = localStorage.getItem("yatzyScores");
+    const loadedCurrentPlayer = localStorage.getItem("yatzyCurrentPlayer");
+    const loadedSelectedDice = localStorage.getItem("yatzySelectedDice");
+  
+    if (loadedScores) {
+      setScores(JSON.parse(loadedScores));
+    }
+    if (loadedCurrentPlayer) {
+      setCurrentPlayer(parseInt(loadedCurrentPlayer, 10));
+    }
+    if (loadedSelectedDice) {
+      setSelectedDicePerPlayer(JSON.parse(loadedSelectedDice));
+    }
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.row}>
@@ -166,6 +189,8 @@ const PlayerLayout = ({ children }) => {
           />
         </div>
       </div>
+      <button onClick={saveGame}>Tallenna</button>
+      <button onClick={loadGame}>Lataa</button>
       <ScoreTable scores={scores} updateScore={updateScore} />
       <div className={styles.row}>
         <div className={`${styles.player} ${styles.player2}`}>
@@ -185,6 +210,7 @@ const PlayerLayout = ({ children }) => {
           />
         </div>
       </div>
+      <HighScores />
     </div>
   );
 };

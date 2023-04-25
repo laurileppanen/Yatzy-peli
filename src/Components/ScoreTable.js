@@ -17,6 +17,14 @@ const ScoreTable = ({ scores, updateScore }) => {
     }, 0);
   };
 
+  const saveHighScore = (playerNumber, playerName) => {
+    const totalScore = calculateTotalScore(playerNumber);
+    const newHighScore = { name: playerName, score: totalScore };
+    const storedHighScores = JSON.parse(localStorage.getItem('yatzyHighScores')) || [];
+    const updatedHighScores = [...storedHighScores, newHighScore].sort((a, b) => b.score - a.score).slice(0, 10);
+    localStorage.setItem('yatzyHighScores', JSON.stringify(updatedHighScores));
+  };
+
   return (
     <table className={styles.scoreTable}>
       <thead>
@@ -54,23 +62,28 @@ const ScoreTable = ({ scores, updateScore }) => {
             </td>
           </tr>
         ))}
+        <tr>
+          <td>Summa</td>
+          <td>
+            {calculateTotalScore(1)}
+            <button onClick={() => saveHighScore(1, 'Pelaaja1')}>Tallenna ennätys</button>
+          </td>
+          <td>
+            {calculateTotalScore(2)}
+            <button onClick={() => saveHighScore(2, 'Pelaaja2')}>Tallenna ennätys</button>
+          </td>
+          <td>
+            {calculateTotalScore(3)}
+            <button onClick={() => saveHighScore(3, 'Pelaaja3')}>Tallenna ennätys</button>
+          </td>
+          <td>
+            {calculateTotalScore(4)}
+            <button onClick={() => saveHighScore(4, 'Pelaaja4')}>Tallenna ennätys</button>
+          </td>
+        </tr>
       </tbody>
-      <tr>
-        <td>Summa</td>
-        <td>{calculateTotalScore(1)}</td>
-        <td>{calculateTotalScore(2)}</td>
-        <td>{calculateTotalScore(3)}</td>
-        <td>{calculateTotalScore(4)}</td>
-      </tr>
     </table>
   );
 };
 
-export default ScoreTable
-
-
-
-
-
-
-
+export default ScoreTable;

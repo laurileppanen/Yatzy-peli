@@ -1,0 +1,23 @@
+.highScores {
+    text-align: center;
+    margin: 2rem;
+  }
+  
+  .highScoresTable {
+    margin: 0 auto;
+    border-collapse: collapse;
+    width: 50%;
+  }
+  
+  .highScoresTable th,
+  .highScoresTable td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: center;
+  }
+  
+  .highScoresTable th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+  

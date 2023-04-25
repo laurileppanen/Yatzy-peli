@@ -33,7 +33,7 @@ const DiceRoller = forwardRef(({ onDiceSelected, isCurrentPlayer, onNextPlayer }
 
   useEffect(() => {
     onDiceSelected(diceRolls.filter((_, index) => locked[index]));
-  }, [locked, onDiceSelected, diceRolls]);
+  }, [locked]);
 
   useImperativeHandle(ref, () => ({
     resetRerolls: () => setRerollsRemaining(2),
@@ -73,9 +73,6 @@ const DiceRoller = forwardRef(({ onDiceSelected, isCurrentPlayer, onNextPlayer }
 });
 
 export default DiceRoller;
-
-
-
 
 
 

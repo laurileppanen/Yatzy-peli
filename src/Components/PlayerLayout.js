@@ -14,6 +14,13 @@ const PlayerLayout = ({ children }) => {
 
   const [currentPlayer, setCurrentPlayer] = useState(1);
 
+  const [playerNames, setPlayerNames] = useState({
+    1: 'Pelaaja 1',
+    2: 'Pelaaja 2',
+    3: 'Pelaaja 3',
+    4: 'Pelaaja 4',
+  });
+
   const updateScore = (playerNumber, category) => {
     const selectedDice = selectedDicePerPlayer[playerNumber];
     if (selectedDice) {
@@ -43,6 +50,13 @@ const PlayerLayout = ({ children }) => {
 
   const onNextPlayer = () => {
     setCurrentPlayer((prevPlayer) => (prevPlayer % 4) + 1);
+  };
+
+  const updatePlayerName = (playerNumber, newName) => {
+    setPlayerNames((prevPlayerNames) => ({
+      ...prevPlayerNames,
+      [playerNumber]: newName,
+    }));
   };
 
   const calculateCategoryScore = (category, dice) => {
@@ -151,12 +165,14 @@ const PlayerLayout = ({ children }) => {
     localStorage.setItem("yatzyScores", JSON.stringify(scores));
     localStorage.setItem("yatzyCurrentPlayer", currentPlayer);
     localStorage.setItem("yatzySelectedDice", JSON.stringify(selectedDicePerPlayer));
+    localStorage.setItem("yatzyPlayerNames", JSON.stringify(playerNames)); // Lisää tämä rivi
   };
   
   const loadGame = () => {
     const loadedScores = localStorage.getItem("yatzyScores");
     const loadedCurrentPlayer = localStorage.getItem("yatzyCurrentPlayer");
     const loadedSelectedDice = localStorage.getItem("yatzySelectedDice");
+    const loadedPlayerNames = localStorage.getItem("yatzyPlayerNames"); // Lisää tämä rivi
   
     if (loadedScores) {
       setScores(JSON.parse(loadedScores));
@@ -167,47 +183,59 @@ const PlayerLayout = ({ children }) => {
     if (loadedSelectedDice) {
       setSelectedDicePerPlayer(JSON.parse(loadedSelectedDice));
     }
+    if (loadedPlayerNames) { 
+      setPlayerNames(JSON.parse(loadedPlayerNames));
+    } 
   };
+  
 
   return (
     <div className={styles.container}>
       <div className={styles.row}>
         <div className={`${styles.player} ${styles.player1}`}>
-          <Player
-            onDiceSelected={handleDiceSelected}
-            playerNumber={1}
-            isCurrentPlayer={currentPlayer === 1}
-            onNextPlayer={onNextPlayer}
-          />
+        <Player
+          onDiceSelected={handleDiceSelected}
+          playerNumber={1}
+          playerName={playerNames[1]}
+          isCurrentPlayer={currentPlayer === 1}
+          onNextPlayer={onNextPlayer}
+          updatePlayerName={updatePlayerName}
+        />
         </div>
         <div className={`${styles.player} ${styles.player3}`}>
-          <Player
-            onDiceSelected={handleDiceSelected}
-            playerNumber={3}
-            isCurrentPlayer={currentPlayer === 3}
-            onNextPlayer={onNextPlayer}
-          />
+        <Player
+          onDiceSelected={handleDiceSelected}
+          playerNumber={3}
+          playerName={playerNames[3]}
+          isCurrentPlayer={currentPlayer === 3}
+          onNextPlayer={onNextPlayer}
+          updatePlayerName={updatePlayerName}
+        />
         </div>
       </div>
       <button onClick={saveGame}>Tallenna</button>
       <button onClick={loadGame}>Lataa</button>
-      <ScoreTable scores={scores} updateScore={updateScore} />
+      <ScoreTable scores={scores} updateScore={updateScore} playerNames={playerNames} />
       <div className={styles.row}>
         <div className={`${styles.player} ${styles.player2}`}>
-          <Player
-            onDiceSelected={handleDiceSelected}
-            playerNumber={2}
-            isCurrentPlayer={currentPlayer === 2}
-            onNextPlayer={onNextPlayer}
-          />
+        <Player
+          onDiceSelected={handleDiceSelected}
+          playerNumber={2}
+          playerName={playerNames[2]}
+          isCurrentPlayer={currentPlayer === 2}
+          onNextPlayer={onNextPlayer}
+          updatePlayerName={updatePlayerName}
+        />
         </div>
         <div className={`${styles.player} ${styles.player4}`}>
-          <Player
-            onDiceSelected={handleDiceSelected}
-            playerNumber={4}
-            isCurrentPlayer={currentPlayer === 4}
-            onNextPlayer={onNextPlayer}
-          />
+        <Player
+          onDiceSelected={handleDiceSelected}
+          playerNumber={4}
+          playerName={playerNames[4]}
+          isCurrentPlayer={currentPlayer === 4}
+          onNextPlayer={onNextPlayer}
+          updatePlayerName={updatePlayerName}
+        />
         </div>
       </div>
       <HighScores />

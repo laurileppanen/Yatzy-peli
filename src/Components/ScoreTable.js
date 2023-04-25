@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from '../ScoreTable.module.css';
 
-const ScoreTable = ({ scores, updateScore }) => {
+const ScoreTable = ({ scores, updateScore, playerNames }) => {
   const categories = [
     'ykköset', 'kakkoset', 'kolmoset', 'neloset', 'viitoset', 'kuutoset', 'pari', 'kaksi paria', 'kolme samaa', 'neljä samaa', 'pikku suora', 'iso suora', 'täyskäsi', 'sattuma', 'yatzy'
   ];
@@ -30,10 +30,10 @@ const ScoreTable = ({ scores, updateScore }) => {
       <thead>
         <tr>
           <th></th>
-          <th>Pelaaja1</th>
-          <th>Pelaaja2</th>
-          <th>Pelaaja3</th>
-          <th>Pelaaja4</th>
+          <th>{playerNames[1]}</th>
+          <th>{playerNames[2]}</th>
+          <th>{playerNames[3]}</th>
+          <th>{playerNames[4]}</th>
         </tr>
       </thead>
       <tbody>
@@ -65,21 +65,21 @@ const ScoreTable = ({ scores, updateScore }) => {
         <tr>
           <td>Summa</td>
           <td>
-            {calculateTotalScore(1)}
-            <button onClick={() => saveHighScore(1, 'Pelaaja1')}>Tallenna ennätys</button>
-          </td>
-          <td>
-            {calculateTotalScore(2)}
-            <button onClick={() => saveHighScore(2, 'Pelaaja2')}>Tallenna ennätys</button>
-          </td>
-          <td>
-            {calculateTotalScore(3)}
-            <button onClick={() => saveHighScore(3, 'Pelaaja3')}>Tallenna ennätys</button>
-          </td>
-          <td>
-            {calculateTotalScore(4)}
-            <button onClick={() => saveHighScore(4, 'Pelaaja4')}>Tallenna ennätys</button>
-          </td>
+  {calculateTotalScore(1)}
+  <button onClick={() => saveHighScore(1, playerNames[1])}>Tallenna ennätys</button>
+</td>
+<td>
+  {calculateTotalScore(2)}
+  <button onClick={() => saveHighScore(2, playerNames[2])}>Tallenna ennätys</button>
+</td>
+<td>
+  {calculateTotalScore(3)}
+  <button onClick={() => saveHighScore(3, playerNames[3])}>Tallenna ennätys</button>
+</td>
+<td>
+  {calculateTotalScore(4)}
+  <button onClick={() => saveHighScore(4, playerNames[4])}>Tallenna ennätys</button>
+</td>
         </tr>
       </tbody>
     </table>

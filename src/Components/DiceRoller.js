@@ -41,6 +41,7 @@ const DiceRoller = forwardRef(({ onDiceSelected, isCurrentPlayer, onNextPlayer }
 
   const handleNextPlayer = () => {
     onNextPlayer();
+    setLocked(Array(5).fill(false));
     setRerollsRemaining(2);
   };
 
